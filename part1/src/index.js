@@ -28,7 +28,7 @@ const App = () => {
     );
   };
 
-  const Content = props => (
+  const Content = () => (
     <>
       <Part part={part1} exercise={exercises1} />
       <Part part={part2} exercise={exercises2} />
