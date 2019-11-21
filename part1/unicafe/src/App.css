@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 400px;
+  margin-left: 5px;
+}
+
+h1 {
+  margin: 25px 0;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.wrapper * {
+  margin-right: 5px;
+}
