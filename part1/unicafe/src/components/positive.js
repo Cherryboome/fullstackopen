@@ -1,6 +1,6 @@
 import React from "react";
 
-const PositiveCalc = ({ good, all }) => {
+const PositiveCalc = ({ text, good, all }) => {
   let positive;
   if (good === 0 && all === 0) {
     positive = 0;
@@ -10,7 +10,7 @@ const PositiveCalc = ({ good, all }) => {
 
   return (
     <div>
-      <p>{`positive: ${positive}%`}</p>
+      <p>{`${text}: ${positive}%`}</p>
     </div>
   );
 };

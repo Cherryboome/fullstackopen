@@ -1,6 +1,6 @@
 import React from "react";
 
-const AverageCalc = ({ good, bad, all }) => {
+const AverageCalc = ({ text, good, bad, all }) => {
   let average;
   if (all === 0) {
     average = 0;
@@ -10,7 +10,7 @@ const AverageCalc = ({ good, bad, all }) => {
 
   return (
     <div>
-      <p>{`average: ${average}`}</p>
+      <p>{`${text}: ${average}`}</p>
     </div>
   );
 };
