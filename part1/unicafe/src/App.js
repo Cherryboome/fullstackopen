@@ -2,35 +2,7 @@ import React, { useState } from "react";
 import Button from "./button/Button";
 import "./App.css";
 
-const PositiveCalc = ({ good, all }) => {
-  let positive;
-  if (good === 0 && all === 0) {
-    positive = 0;
-  } else {
-    positive = (good / all) * 100;
-  }
-
-  return (
-    <div>
-      <p>{`positive: ${positive}%`}</p>
-    </div>
-  );
-};
-
-const AverageCalc = ({ good, bad, all }) => {
-  let average;
-  if (all === 0) {
-    average = 0;
-  } else {
-    average = (good - bad) / all;
-  }
-
-  return (
-    <div>
-      <p>{`average: ${average}`}</p>
-    </div>
-  );
-};
+import Statistics from "./hoc/statistics";
 
 const App = () => {
   const [good, setGood] = useState(0);
@@ -61,14 +33,8 @@ const App = () => {
         <Button text="neutral" handleClick={handleNeutral} />
         <Button text="bad" handleClick={handleBad} />
       </div>
-      <h1>Statistics</h1>
       <div>
-        <p>good: {good}</p>
-        <p>neutral: {neutral}</p>
-        <p>bad: {bad}</p>
-        <p>all: {all}</p>
-        <AverageCalc good={good} bad={bad} all={all} />
-        <PositiveCalc good={good} all={all} />
+        <Statistics good={good} bad={bad} neutral={neutral} all={all} />
       </div>
     </div>
   );
