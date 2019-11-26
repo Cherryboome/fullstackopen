@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "./button/Button";
 import "./App.css";
 
-import Statistics from "./hoc/statistics";
+import Statistics from "./components/statistics";
 
 const App = () => {
   const [good, setGood] = useState(0);
@@ -34,13 +34,15 @@ const App = () => {
         <Button text="bad" handleClick={handleBad} />
       </div>
       <div>
+        <h1>Statistics</h1>
         {all === 0 ? (
           <div>
-            <h1>Statistics</h1>
             <p>No feedback given</p>
           </div>
         ) : (
-          <Statistics good={good} bad={bad} neutral={neutral} all={all} />
+          <div>
+            <Statistics good={good} neutral={neutral} bad={bad} all={all} />
+          </div>
         )}
       </div>
     </div>
