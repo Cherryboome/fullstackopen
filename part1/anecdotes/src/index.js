@@ -26,8 +26,29 @@ const App = props => {
     setVotes(votesCopy);
   };
 
+  const mostVotes = array => {
+    const max = Math.max(...array);
+    return array.map((item, index) => {
+      if (item === max && max !== 0) {
+        return (
+          <div key={index}>
+            <div>{props.anecdotes[index]}</div>
+            <div>
+              <p>has {max} votes</p>
+            </div>
+          </div>
+        );
+      } else {
+        return null;
+      }
+    });
+  };
+
   return (
     <>
+      <div>
+        <h1>Anecdote of the day</h1>
+      </div>
       <div>{props.anecdotes[selected]}</div>
       <div>
         <p>has {votes[selected]} votes</p>
@@ -41,6 +62,10 @@ const App = props => {
         </button>
         <button onClick={() => handleClick(anecdotes)}>Next anecdote</button>
       </div>
+      <div>
+        <h1>Anecdote with most votes</h1>
+      </div>
+      {mostVotes(votes)}
     </>
   );
 };
