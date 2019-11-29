@@ -1,22 +1,25 @@
 import React from "react";
+import Header from "./Header";
 import Part from "./Part";
 
-const Course = ({ course }) => {
-  const { name, parts } = course;
-
-  const sum = parts.reduce((sum, part) => {
-    return sum + part.exercises;
-  }, 0);
-
+const Course = ({ courses }) => {
   return (
     <div>
-      <h1>{name}</h1>
-      {parts.map(part => (
-        <Part key={part.id} name={part.name} exercises={part.exercises} />
-      ))}
-      <div>
-        <h4>total of {sum} exercises</h4>
-      </div>
+      {courses.map(course => {
+        return (
+          <div key={course.id}>
+            <Header name={course.name} />
+            {course.parts.map(part => (
+              <Part key={part.id} name={part.name} exercises={part.exercises} />
+            ))}
+            <h4>
+              total of{" "}
+              {course.parts.reduce((sum, part) => sum + part.exercises, 0)}{" "}
+              exercises
+            </h4>
+          </div>
+        );
+      })}
     </div>
   );
 };
