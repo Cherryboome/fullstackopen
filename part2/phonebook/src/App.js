@@ -8,8 +8,18 @@ const App = () => {
     event.preventDefault();
     const addPerson = { name: newName };
 
-    setPersons(persons.concat(addPerson));
-    setNewName("");
+    if (
+      persons.find(
+        person =>
+          person.name.toLocaleLowerCase() === newName.toLocaleLowerCase()
+      )
+    ) {
+      alert(`${newName} is already added to phonebook`);
+      setNewName("");
+    } else {
+      setPersons(persons.concat(addPerson));
+      setNewName("");
+    }
   };
 
   const handleNameChange = event => {
