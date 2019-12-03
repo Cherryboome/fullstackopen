@@ -1,13 +1,9 @@
 import React from "react";
 import ShowButton from "./ShowButton";
 
-const CountriesList = ({ filterCountries, countries }) => {
+const CountriesList = ({ filterCountries, countries, handleSearchChange }) => {
   const numberWithCommas = x => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
-  const countryView = () => {
-    console.log("working");
   };
 
   if (filterCountries.length === countries.length) {
@@ -20,7 +16,10 @@ const CountriesList = ({ filterCountries, countries }) => {
         <div key={country.name + i}>
           <span>{country.name}</span>
           <span>
-            <ShowButton countryView={countryView} />
+            <ShowButton
+              value={country.name}
+              handleSearchChange={handleSearchChange}
+            />
           </span>
         </div>
       );
