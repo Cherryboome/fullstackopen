@@ -1,9 +1,11 @@
 import React from "react";
 
-const ShowButton = ({ countryView }) => {
+const ShowButton = ({ value, handleSearchChange }) => {
   return (
     <div style={{ display: "inline-block", padding: "5px" }}>
-      <button onClick={countryView}>Show</button>
+      <button value={value} onClick={event => handleSearchChange(event)}>
+        Show
+      </button>
     </div>
   );
 };
