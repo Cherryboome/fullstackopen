@@ -1,15 +1,29 @@
 import React from "react";
+import ShowButton from "./ShowButton";
 
-const CountriesList = ({ filterCountries }) => {
+const CountriesList = ({ filterCountries, countries }) => {
   const numberWithCommas = x => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  if (filterCountries.length > 10) {
+  const countryView = () => {
+    console.log("working");
+  };
+
+  if (filterCountries.length === countries.length) {
+    return <div></div>;
+  } else if (filterCountries.length > 10) {
     return <div>Too many matches, specify another filter.</div>;
   } else if (filterCountries.length > 1 && filterCountries.length < 10) {
     return filterCountries.map((country, i) => {
-      return <div key={country.name + i}>{country.name}</div>;
+      return (
+        <div key={country.name + i}>
+          <span>{country.name}</span>
+          <span>
+            <ShowButton countryView={countryView} />
+          </span>
+        </div>
+      );
     });
   }
   return filterCountries.map((country, i) => {
