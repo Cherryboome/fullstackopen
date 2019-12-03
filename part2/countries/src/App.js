@@ -33,7 +33,7 @@ function App() {
   return (
     <div>
       <Filter newSearch={newSearch} handleSearchChange={handleSearchChange} />
-      <CountriesList filterCountries={filterCountries} />
+      <CountriesList filterCountries={filterCountries} countries={countries} />
     </div>
   );
 }
