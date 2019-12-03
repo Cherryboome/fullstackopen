@@ -1,7 +1,15 @@
 import React from "react";
 import ShowButton from "./ShowButton";
+import Weather from "./Weather";
 
-const CountriesList = ({ filterCountries, countries, handleSearchChange }) => {
+const CountriesList = ({
+  filterCountries,
+  countries,
+  handleSearchChange,
+  weather,
+  handleCapitalChange,
+  capital
+}) => {
   const numberWithCommas = x => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -26,6 +34,8 @@ const CountriesList = ({ filterCountries, countries, handleSearchChange }) => {
     });
   }
   return filterCountries.map((country, i) => {
+    handleCapitalChange(country.capital);
+
     return (
       <div key={country.name + i}>
         <h2>{country.name}</h2>
@@ -42,6 +52,7 @@ const CountriesList = ({ filterCountries, countries, handleSearchChange }) => {
           alt={`${country.name} flag`}
           style={{ width: "10%" }}
         />
+        <Weather weather={weather} />
       </div>
     );
   });

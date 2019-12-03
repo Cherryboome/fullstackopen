@@ -4,10 +4,14 @@ import axios from "axios";
 import Filter from "./components/Filter";
 import CountriesList from "./components/CountriesList";
 
-function App() {
+require("dotenv").config();
+
+const App = () => {
   const [countries, setCountries] = useState([]);
   const [newSearch, setNewSearch] = useState("");
   const [showAll, setShowAll] = useState(true);
+  const [weather, setWeather] = useState([]);
+  const [capital, setCapital] = useState("New York");
 
   useEffect(() => {
     axios.get("https://restcountries.eu/rest/v2/all").then(response => {
@@ -15,7 +19,25 @@ function App() {
     });
   }, []);
 
-  console.log(countries);
+  useEffect(() => {
+    const params = {
+      access_key: process.env.REACT_APP_ACCESS_KEY,
+      query: capital
+    };
+
+    axios
+      .get("http://api.weatherstack.com/current", { params })
+      .then(response => {
+        const apiResponse = response.data;
+        setWeather(apiResponse);
+        // console.log(
+        //   `Current temperature in ${apiResponse.location.name} is ${apiResponse.current.temperature}℃`
+        // );
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [capital]);
 
   const filterCountries = showAll
     ? countries
@@ -30,6 +52,8 @@ function App() {
     setShowAll(false);
   };
 
+  const handleCapitalChange = capital => setCapital(capital);
+
   return (
     <div>
       <Filter newSearch={newSearch} handleSearchChange={handleSearchChange} />
@@ -37,9 +61,11 @@ function App() {
         filterCountries={filterCountries}
         countries={countries}
         handleSearchChange={handleSearchChange}
+        handleCapitalChange={handleCapitalChange}
+        weather={weather}
       />
     </div>
   );
-}
+};
 
 export default App;
