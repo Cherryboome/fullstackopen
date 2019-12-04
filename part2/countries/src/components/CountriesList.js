@@ -7,8 +7,7 @@ const CountriesList = ({
   countries,
   handleSearchChange,
   weather,
-  handleCapitalChange,
-  capital
+  handleCapitalChange
 }) => {
   const numberWithCommas = x => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
