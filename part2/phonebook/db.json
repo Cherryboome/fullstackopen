@@ -19,6 +19,16 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
+    },
+    {
+      "name": "John Wayne",
+      "number": "020-342-9807",
+      "id": 5
+    },
+    {
+      "name": "Eddie Murphy",
+      "number": "040-546-2354",
+      "id": 6
     }
   ]
 }

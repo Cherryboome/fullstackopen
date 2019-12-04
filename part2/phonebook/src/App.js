@@ -20,8 +20,6 @@ const App = () => {
     });
   }, []);
 
-  console.log("render", persons.length, "persons");
-
   const addPerson = event => {
     event.preventDefault();
     const addPerson = { name: newName, number: newNumber };
@@ -36,9 +34,12 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     } else {
-      setPersons(persons.concat(addPerson));
-      setNewName("");
-      setNewNumber("");
+      axios.post("http://localhost:3001/persons", addPerson).then(response => {
+        console.log(response.data);
+      });
+      // setPersons(persons.concat(addPerson));
+      // setNewName("");
+      // setNewNumber("");
     }
   };
 
