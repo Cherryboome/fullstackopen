@@ -4,7 +4,7 @@ import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 
-import { getAll, create } from "./components/services/persons";
+import { getAll, create, deleteObj } from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -14,9 +14,7 @@ const App = () => {
   const [showAll, setShowAll] = useState(true);
 
   useEffect(() => {
-    console.log("effect");
     getAll().then(initialPersons => {
-      console.log("promise fulfilled");
       setPersons(initialPersons);
     });
   }, []);
@@ -52,6 +50,13 @@ const App = () => {
     setShowAll(false);
   };
 
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      deleteObj(id);
+      setPersons(persons.filter(person => person.id !== id));
+    }
+  };
+
   const searchResults = showAll
     ? persons
     : persons.filter(person => {
@@ -73,7 +78,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons searchResults={searchResults} />
+      <Persons searchResults={searchResults} handleDelete={handleDelete} />
     </div>
   );
 };
