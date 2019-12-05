@@ -1,11 +1,18 @@
 import React from "react";
+import DeleteButton from "./DeleteButton";
 
-const Persons = ({ searchResults }) => {
+const Persons = ({ searchResults, handleDelete }) => {
+  console.log(searchResults);
   return searchResults.map(person => {
     return (
-      <p key={person.name}>
-        {person.name} {person.number}
-      </p>
+      <div key={person.name}>
+        {person.name} {person.number}{" "}
+        <DeleteButton
+          id={person.id}
+          handleDelete={handleDelete}
+          name={person.name}
+        />
+      </div>
     );
   });
 };
