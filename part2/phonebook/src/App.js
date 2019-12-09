@@ -4,7 +4,7 @@ import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 
-import { getAll, create, deleteObj } from "./services/persons";
+import { getAll, create, deleteObj, update } from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -22,14 +22,27 @@ const App = () => {
   const addPerson = event => {
     event.preventDefault();
     const addPerson = { name: newName, number: newNumber };
+    const filteredPerson = persons.find(
+      person => person.name.toLocaleLowerCase() === newName.toLocaleLowerCase()
+    );
 
-    if (
-      persons.find(
-        person =>
-          person.name.toLocaleLowerCase() === newName.toLocaleLowerCase()
-      )
-    ) {
-      alert(`${newName} is already added to phonebook`);
+    const changedNumber = { ...filteredPerson, number: newNumber };
+
+    if (filteredPerson) {
+      window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      );
+      update(filteredPerson.id, changedNumber)
+        .then(returnedPerson =>
+          setPersons(
+            persons.map(person =>
+              person.id !== filteredPerson.id ? person : returnedPerson
+            )
+          )
+        )
+        .catch(error => {
+          alert(`${filteredPerson.name}'s number cannot be updated`);
+        });
       setNewName("");
       setNewNumber("");
     } else {

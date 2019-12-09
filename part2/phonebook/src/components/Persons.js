@@ -2,7 +2,6 @@ import React from "react";
 import DeleteButton from "./DeleteButton";
 
 const Persons = ({ searchResults, handleDelete }) => {
-  console.log(searchResults);
   return searchResults.map(person => {
     return (
       <div key={person.name}>
