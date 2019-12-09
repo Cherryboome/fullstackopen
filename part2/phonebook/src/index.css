@@ -1,3 +1,14 @@
+.error {
+  display: inline-block;
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
 .success {
   display: inline-block;
   color: green;

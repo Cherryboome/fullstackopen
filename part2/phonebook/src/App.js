@@ -16,6 +16,7 @@ const App = () => {
   const [newSearch, setNewSearch] = useState("");
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [messageType, setMessageType] = useState(null);
 
   useEffect(() => {
     getAll().then(initialPersons => {
@@ -36,30 +37,41 @@ const App = () => {
       window.confirm(
         `${newName} is already added to phonebook, replace the old number with a new one?`
       );
-      update(filteredPerson.id, changedNumber).then(returnedPerson =>
-        setPersons(
-          persons.map(person =>
-            person.id !== filteredPerson.id ? person : returnedPerson
-          )
-        )
-      );
+      update(filteredPerson.id, changedNumber)
+        .then(returnedPerson => {
+          setPersons(
+            persons.map(person =>
+              person.id !== filteredPerson.id ? person : returnedPerson
+            )
+          );
+          setMessageType("success");
 
-      setErrorMessage(
-        `${filteredPerson.name}'s number was successfully updated in the phonebook.`
-      );
+          setErrorMessage(
+            `${filteredPerson.name}'s number was successfully updated in the phonebook.`
+          );
 
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
 
-      setNewName("");
-      setNewNumber("");
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch(error => {
+          setMessageType("failure");
+          setErrorMessage(
+            `${filteredPerson.name} cannot be found on the server.`
+          );
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
+        });
     } else {
       create(addPerson).then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
-
+        setMessageType("success");
         setErrorMessage(
           `${addPerson.name} was successfully added to the phonebook.`
         );
@@ -98,7 +110,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} messageType={messageType} />
       <Filter newSearch={newSearch} handleSearchChange={handleSearchChange} />
       <h3>Add a new listing</h3>
       <PersonForm
