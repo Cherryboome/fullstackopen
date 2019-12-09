@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Ada Lovelace",
-      "number": "394-453-2352",
+      "number": "989-090-3245",
       "id": 2
     },
     {
@@ -24,6 +24,11 @@
       "name": "donnie nelson",
       "number": "090-090-0099",
       "id": 6
+    },
+    {
+      "name": "Ernest Cherry",
+      "number": "989-909-2134",
+      "id": 7
     }
   ]
 }

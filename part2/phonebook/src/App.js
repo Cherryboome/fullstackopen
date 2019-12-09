@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 
+import "./index.css";
+
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
+import Notification from "./components/Notification";
 
 import { getAll, create, deleteObj, update } from "./services/persons";
 
@@ -12,6 +15,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
   const [showAll, setShowAll] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     getAll().then(initialPersons => {
@@ -32,17 +36,22 @@ const App = () => {
       window.confirm(
         `${newName} is already added to phonebook, replace the old number with a new one?`
       );
-      update(filteredPerson.id, changedNumber)
-        .then(returnedPerson =>
-          setPersons(
-            persons.map(person =>
-              person.id !== filteredPerson.id ? person : returnedPerson
-            )
+      update(filteredPerson.id, changedNumber).then(returnedPerson =>
+        setPersons(
+          persons.map(person =>
+            person.id !== filteredPerson.id ? person : returnedPerson
           )
         )
-        .catch(error => {
-          alert(`${filteredPerson.name}'s number cannot be updated`);
-        });
+      );
+
+      setErrorMessage(
+        `${filteredPerson.name}'s number was successfully updated in the phonebook.`
+      );
+
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+
       setNewName("");
       setNewNumber("");
     } else {
@@ -50,6 +59,14 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
+
+        setErrorMessage(
+          `${addPerson.name} was successfully added to the phonebook.`
+        );
+
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
       });
     }
   };
@@ -81,6 +98,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter newSearch={newSearch} handleSearchChange={handleSearchChange} />
       <h3>Add a new listing</h3>
       <PersonForm
