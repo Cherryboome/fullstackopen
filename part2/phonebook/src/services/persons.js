@@ -18,3 +18,9 @@ export const deleteObj = id => {
     .then(response => response.data)
     .catch(error => console.log(error));
 };
+
+export const update = (id, newObject) => {
+  const baseURL = `http://localhost:3001/persons/${id}`;
+  const request = axios.put(baseURL, newObject);
+  return request.then(response => response.data);
+};
