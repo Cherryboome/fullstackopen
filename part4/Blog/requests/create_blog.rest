@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-"title": "How to fetch data REACT.js and MongoDB Atlas",
-"author": "Jane Doe",
+"title": "How to become a full stack developer",
+"author": "Johnny Doe",
 "url": "N/A",
-"likes": 120
+"likes": 10
 }
