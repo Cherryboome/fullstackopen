@@ -20,6 +20,14 @@ describe('return correct amount of blog posts in JSON format', () => {
   })
 })
 
+test('id is used instead of _id', async () => {
+  const response = await api.get('/api/blogs')
+
+  const id = response.body[0].id
+
+  expect(id).toBeDefined()
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
