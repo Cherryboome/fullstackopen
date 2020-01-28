@@ -37,19 +37,41 @@ describe('return correct amount of blog posts in JSON format', () => {
       .expect('Content-Type', /application\/json/)
   })
 
-  test('there is one blog', async () => {
+  test(`there are ${initialBlogs.length} blogs`, async () => {
     const response = await api.get('/api/blogs')
 
     expect(response.body.length).toBe(initialBlogs.length)
   })
-})
 
-test('id is used instead of _id', async () => {
-  const response = await api.get('/api/blogs')
+  test('blog post successfully added', async () => {
+    const newBlog = {
+      title: 'React Hooks',
+      author: 'Damien Marley',
+      url: 'N/A',
+      likes: 100
+    }
 
-  const id = response.body[0].id
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
-  expect(id).toBeDefined()
+    const response = await api.get('/api/blogs')
+    const titles = response.body.map(res => res.title)
+
+    expect(response.body.length).toBe(initialBlogs.length + 1)
+    expect(titles).toContain('React Hooks')
+  })
+
+  test('id is used instead of _id', async () => {
+    const response = await api.get('/api/blogs')
+
+    const id = response.body[0].id
+    // console.log(id)
+
+    expect(id).toBeDefined()
+  })
 })
 
 afterAll(() => {
