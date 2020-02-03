@@ -1,29 +1,15 @@
 /* eslint-disable linebreak-style */
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 
-const initialBlogs = [
-  {
-    title: 'Front end web development in 2020',
-    author: 'Lee Wang',
-    url: 'N/A',
-    likes: 30
-  },
-  {
-    title: 'Technologies every developer should know in 2020',
-    author: 'Jean Defaux',
-    url: 'N/A',
-    likes: 25
-  }
-]
-
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  initialBlogs.forEach(async blog => {
+  helper.initialBlogs.forEach(async blog => {
     let blogObject = new Blog(blog)
     await blogObject.save()
   })
@@ -37,12 +23,14 @@ describe('return correct amount of blog posts in JSON format', () => {
       .expect('Content-Type', /application\/json/)
   })
 
-  test(`there are ${initialBlogs.length} blogs`, async () => {
+  test(`there are ${helper.initialBlogs.length} blogs`, async () => {
     const response = await api.get('/api/blogs')
 
-    expect(response.body.length).toBe(initialBlogs.length)
+    expect(response.body.length).toBe(helper.initialBlogs.length)
   })
+})
 
+describe('post request actions', () => {
   test('blog post successfully added', async () => {
     const newBlog = {
       title: 'React Hooks',
@@ -57,10 +45,10 @@ describe('return correct amount of blog posts in JSON format', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs')
-    const titles = response.body.map(res => res.title)
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
 
-    expect(response.body.length).toBe(initialBlogs.length + 1)
+    const titles = blogsAtEnd.map(blog => blog.title)
     expect(titles).toContain('React Hooks')
   })
 
@@ -68,7 +56,6 @@ describe('return correct amount of blog posts in JSON format', () => {
     const response = await api.get('/api/blogs')
 
     const id = response.body[0].id
-    // console.log(id)
 
     expect(id).toBeDefined()
   })
@@ -80,21 +67,34 @@ describe('return correct amount of blog posts in JSON format', () => {
       url: 'N/A'
     }
 
+    if (newBlog.likes === undefined) {
+      newBlog.likes = 0
+    }
+
     await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs')
-    response.body.map(res => {
-      if (res.likes === undefined) {
-        res.likes = 0
-      }
-    })
+    const blogsAtEnd = await helper.blogsInDb()
 
-    console.log(response.body)
-    expect(response.body[response.body.length - 1].likes).toBe(0)
+    expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toBe(0)
+  })
+
+  test('blog without title and url properties throw error message', async () => {
+    const newBlog = {
+      author: 'Julien Johnson',
+      likes: 15
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
   })
 })
 
