@@ -20,8 +20,6 @@ blogsRouter.post('/', async (request, response, next) => {
     likes: body.likes
   })
 
-  console.log(body.likes)
-
   if (body.title === undefined && body.url === undefined) {
     return response.status(400).end()
   }
