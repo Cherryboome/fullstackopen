@@ -16,7 +16,7 @@ beforeEach(async () => {
   await blogObject.save()
 })
 
-describe('return correct amount of blog posts in JSON format', () => {
+describe('when there are initially blog posts saved in the database', () => {
   test('blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
@@ -96,6 +96,23 @@ describe('post request actions', () => {
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+  })
+})
+
+describe('deletion of a blog', () => {
+  test('succeeds with status 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length - 1)
+
+    const contents = blogsAtEnd.map(blog => blog.id)
+
+    expect(contents).not.toContain(blogToDelete.id)
   })
 })
 
