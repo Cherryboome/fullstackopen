@@ -9,11 +9,9 @@ const Blog = require('../models/blog')
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  let blogObject = new Blog(helper.initialBlogs[0])
-  await blogObject.save()
-
-  blogObject = new Blog(helper.initialBlogs[1])
-  await blogObject.save()
+  const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
 })
 
 describe('when there are initially blog posts saved in the database', () => {
@@ -113,6 +111,32 @@ describe('deletion of a blog', () => {
     const contents = blogsAtEnd.map(blog => blog.id)
 
     expect(contents).not.toContain(blogToDelete.id)
+  })
+})
+
+describe('update a single blog', () => {
+  test('succeeds with status 201 if content is updated', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    const updatedBlog = {
+      title: 'Front end web development in 2020',
+      author: 'Lee Wang',
+      url: 'N/A',
+      likes: 90
+    }
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    console.log(blogsAtEnd)
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+
+    expect(blogsAtEnd[0].likes).toBe(90)
   })
 })
 
