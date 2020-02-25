@@ -5,6 +5,7 @@ const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -133,10 +134,55 @@ describe('update a single blog', () => {
       .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
-    console.log(blogsAtEnd)
+    // console.log(blogsAtEnd)
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
 
     expect(blogsAtEnd[0].likes).toBe(90)
+  })
+})
+
+describe('Users', () => {
+  describe('retrieve initial users from db', () => {
+    beforeEach(async () => {
+      await User.deleteMany({})
+      const user = new User({ username: 'Cher', password: 'Thor' })
+      await user.save()
+    })
+
+    test('users are returned as json', async () => {
+      await api
+        .get('/api/users')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+    })
+
+    test('there is one user', async () => {
+      const response = await api.get('/api/users')
+
+      expect(response.body.length).toBe(1)
+    })
+
+    test('creation succeeds with a fresh username', async () => {
+      const usersAtStart = await helper.usersInDb()
+
+      const newUser = {
+        username: 'echerry',
+        name: 'Ernest Cherry',
+        password: 'itsasecret'
+      }
+
+      await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      const usersAtEnd = await helper.usersInDb()
+      expect(usersAtEnd.length).toBe(usersAtStart.length + 1)
+
+      const usernames = usersAtEnd.map(users => users.username)
+      expect(usernames).toContain(newUser.username)
+    })
   })
 })
 
