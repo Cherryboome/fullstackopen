@@ -15,7 +15,9 @@ logger.info('connecting to', config.MONGODB_URI)
 mongoose
   .connect(config.MONGODB_URI, {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true
   })
   .then(result => {
     if (result) {

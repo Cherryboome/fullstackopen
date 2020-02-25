@@ -4,6 +4,13 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 
 usersRouter.post('/', async (request, response, next) => {
+  if (request.body.password.length < 3) {
+    return response
+      .status(400)
+      .json({ error: 'Password must be at least 3 characters long' })
+      .end()
+  }
+
   try {
     const body = request.body
 
@@ -18,9 +25,10 @@ usersRouter.post('/', async (request, response, next) => {
 
     const savedUser = await user.save()
 
-    response.json(savedUser)
+    response.json(savedUser.toJSON())
   } catch (exception) {
     next(exception)
+    console.log(exception.name)
   }
 })
 

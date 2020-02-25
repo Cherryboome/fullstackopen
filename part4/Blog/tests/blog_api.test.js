@@ -183,6 +183,71 @@ describe('Users', () => {
       const usernames = usersAtEnd.map(users => users.username)
       expect(usernames).toContain(newUser.username)
     })
+
+    test('creation fails because username is not unique', async () => {
+      const usersAtStart = await helper.usersInDb()
+
+      const newUser = {
+        username: 'Cher',
+        name: 'Superuser',
+        password: 'itsasecret'
+      }
+
+      const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+      expect(result.body.error).toContain(
+        'User validation failed: username: Error, expected `username` to be unique.'
+      )
+
+      const usersAtEnd = await helper.usersInDb()
+      expect(usersAtEnd.length).toBe(usersAtStart.length)
+    })
+
+    test('creation fails if username is less than 3 characters long', async () => {
+      const usersAtStart = await helper.usersInDb()
+
+      const newUser = {
+        username: 'ec',
+        name: 'Ernest Cherry',
+        password: 'itsasecret'
+      }
+
+      const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+      expect(result.body.error).toContain(
+        'is shorter than the minimum allowed length (3)'
+      )
+
+      const usersAtEnd = await helper.usersInDb()
+      expect(usersAtEnd.length).toBe(usersAtStart.length)
+    })
+
+    test('creation fails if password is less than 3 characters long', async () => {
+      const usersAtStart = await helper.usersInDb()
+
+      const newUser = {
+        username: 'echerry',
+        name: 'Ernest Cherry',
+        password: 'it'
+      }
+
+      await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+      const usersAtEnd = await helper.usersInDb()
+      expect(usersAtEnd.length).toBe(usersAtStart.length)
+    })
   })
 })
 
