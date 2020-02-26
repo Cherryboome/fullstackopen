@@ -2,8 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-"title": "How to become a full stack developer",
-"author": "Johnny Doe",
-"url": "N/A",
-"likes": 10
+"title": "You Think You Know CSS",
+"author": "hoangbkit",
+"url": "https://dev.to/hoangbkit/7-core-css-topics-you-should-know-3cmg",
+"likes": 30,
+"userId": "5e55096258c2c6422ce05547"
 }

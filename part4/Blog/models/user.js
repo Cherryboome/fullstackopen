@@ -10,7 +10,13 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   name: String,
-  passwordHarsh: String
+  passwordHarsh: String,
+  blogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog'
+    }
+  ]
 })
 
 userSchema.plugin(uniqueValidator)

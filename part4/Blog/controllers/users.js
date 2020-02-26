@@ -28,13 +28,29 @@ usersRouter.post('/', async (request, response, next) => {
     response.json(savedUser.toJSON())
   } catch (exception) {
     next(exception)
-    console.log(exception.name)
+    // console.log(exception.name)
   }
 })
 
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({})
+  const users = await User.find({}).populate('blogs', {
+    title: 1,
+    author: 1,
+    url: 1,
+    id: 1
+  })
   response.json(users.map(u => u.toJSON()))
+})
+
+usersRouter.delete('/:id', async (request, response, next) => {
+  const id = request.params.id
+
+  try {
+    await User.findByIdAndDelete(id)
+    response.status(204).end()
+  } catch (exception) {
+    next(exception)
+  }
 })
 
 module.exports = usersRouter
