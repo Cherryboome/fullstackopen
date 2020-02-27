@@ -1,10 +1,11 @@
 POST http://localhost:3003/api/blogs 
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IllvZGEiLCJpZCI6IjVlNTdhNWUxMzA5MzVmNDU4YzExZjY5NSIsImlhdCI6MTU4MjgwNDQzMn0.yzN7fytMuJoiQsmre6-hUN-QiN1deSd50oVUmWWGf2s
 
 {
-"title": "You Think You Know CSS",
-"author": "hoangbkit",
-"url": "https://dev.to/hoangbkit/7-core-css-topics-you-should-know-3cmg",
-"likes": 30,
-"userId": "5e55096258c2c6422ce05547"
+"title": "React v16.13.0",
+"author": "Sunil Pai",
+"url": "https://reactjs.org/blog/2020/02/26/react-v16.13.0.html",
+"likes": 270, 
+"userId": "5e57a5e130935f458c11f695"
 }

@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 
