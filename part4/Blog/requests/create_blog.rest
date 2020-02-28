@@ -1,11 +1,11 @@
 POST http://localhost:3003/api/blogs 
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IllvZGEiLCJpZCI6IjVlNTdhNWUxMzA5MzVmNDU4YzExZjY5NSIsImlhdCI6MTU4MjgwNDQzMn0.yzN7fytMuJoiQsmre6-hUN-QiN1deSd50oVUmWWGf2s
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IllvZGEiLCJpZCI6IjVlNTdhNWUxMzA5MzVmNDU4YzExZjY5NSIsImlhdCI6MTU4Mjg5Nzk4NX0.Ow8KMlWK8RbVQX2rTd7LPXNH1TzBD-EzldnQsJb7l9g
 
 {
-"title": "React v16.13.0",
-"author": "Sunil Pai",
-"url": "https://reactjs.org/blog/2020/02/26/react-v16.13.0.html",
-"likes": 270, 
+"title": "REST API Design Best Practices",
+"author": "John Au-Yeung",
+"url": "https://blog.soshace.com/rest-api-design-best-practices/",
+"likes": 420, 
 "userId": "5e57a5e130935f458c11f695"
 }
